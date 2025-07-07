@@ -24,7 +24,7 @@ class Controller:
         self.telaADM = v.TelaADM(root,self)
 
         self.tela_atual = self.mainVeiw.get_telAtual()
-        self.gerenciador_telas(7)
+        self.gerenciador_telas(1)
         
     def gerenciador_telas(self, id):
         if id == 1:

@@ -553,7 +553,7 @@ class TelaADM(LayoutBase):
                  bg="white", wraplength=200).place(x=-10, y=45)
 
         tk.Button(frameDireito, text="Utilizar Cupom", bg="#f6f9fb", command=self.removerCupom).grid(
-            row=4, column=0, columnspan=2, pady=(160, 0))
+            row=4, column=0, columnspan=2, pady=(180, 0))
 
         self.adicionar_botao_rodape("Voltar", comando=lambda: self.controller.gerenciador_telas(1), lado="left")
 
