@@ -41,7 +41,6 @@ class Model:
         self.conta = ContaUser('eu','e@g.com',18)
         self.conta.id_usuario = 1
         self.adicionarContaAdm()
-        #self.insertVitrine()
 
     def conectar(self):
         conect = sql.connect('padaria.db')
@@ -72,6 +71,13 @@ class Model:
 
     def get_Produtos(self):
         return self.listarProdutos()
+    
+    def filtrarProdutos(self,termoBusca):
+        if termoBusca:
+            produtos_filtrados = [p for p in self.produtos if termoBusca in p.nome.lower()]
+            return produtos_filtrados
+        else:
+            return None
 
     def incrementar_contador(self):
         self.contador += 1
@@ -366,68 +372,4 @@ class Model:
         nomeImagem = os.path.basename(caminho)
         return nomeImagem
     
-    def FirstInputForVitrine():
-        
-        return [
-            Produto(
-                nome="Misto Quente",
-                preco = 1.50,
-                ingredientes="Pão, presunto, queijo, orégano e manteiga.",
-                modo_preparo="Com duas fatias de pão besuntamos ambas de manteiga, salpicamos o orégano "
-                             "e colocamos duas fatias de queijo e presunto, finalizando dando o ponto na chapa.",
-                imagem="imagens/misto.png"
-            ),
-            Produto(
-                nome="Pão de Queijo",
-                preco = 1.50,
-                ingredientes="Polvilho, queijo, leite, ovos e óleo.",
-                modo_preparo="Mistura-se todos os ingredientes até formar uma massa homogênea e assa-se até dourar.",
-                imagem="imagens/misto.png"
-            ),
-                        Produto(
-                nome="Misto Quente",
-                preco = 1.50,
-                ingredientes="Pão, presunto, queijo, orégano e manteiga.",
-                modo_preparo="Com duas fatias de pão besuntamos ambas de manteiga, salpicamos o orégano "
-                             "e colocamos duas fatias de queijo e presunto, finalizando dando o ponto na chapa.",
-                imagem="imagens/misto.png"
-            ),
-            Produto(
-                nome="Pão de Queijo",
-                preco = 1.50,
-                ingredientes="Polvilho, queijo, leite, ovos e óleo.",
-                modo_preparo="Mistura-se todos os ingredientes até formar uma massa homogênea e assa-se até dourar.",
-                imagem="imagens/misto.png"
-            ),
-                        Produto(
-                nome="Misto Quente",
-                preco = 1.50,
-                ingredientes="Pão, presunto, queijo, orégano e manteiga.",
-                modo_preparo="Com duas fatias de pão besuntamos ambas de manteiga, salpicamos o orégano "
-                             "e colocamos duas fatias de queijo e presunto, finalizando dando o ponto na chapa.",
-                imagem="imagens/misto.png"
-            ),
-            Produto(
-                nome="Pão de Queijo",
-                preco = 1.50,
-                ingredientes="Polvilho, queijo, leite, ovos e óleo.",
-                modo_preparo="Mistura-se todos os ingredientes até formar uma massa homogênea e assa-se até dourar.",
-                imagem="imagens/misto.png"
-            ),
-                        Produto(
-                nome="Misto Quente",
-                preco = 1.50,
-                ingredientes="Pão, presunto, queijo, orégano e manteiga.",
-                modo_preparo="Com duas fatias de pão besuntamos ambas de manteiga, salpicamos o orégano "
-                             "e colocamos duas fatias de queijo e presunto, finalizando dando o ponto na chapa.",
-                imagem="imagens/misto.png"
-            ),
-            Produto(
-                nome="Pão de Queijo",
-                preco = 1.50,
-                ingredientes="Polvilho, queijo, leite, ovos e óleo.",
-                modo_preparo="Mistura-se todos os ingredientes até formar uma massa homogênea e assa-se até dourar.",
-                imagem="imagens/misto.png"
-            )
-        ]
-
+    

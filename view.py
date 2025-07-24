@@ -1,4 +1,4 @@
-import tkinter as tk, os 
+import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import messagebox,ttk,filedialog
 
@@ -23,21 +23,52 @@ class LayoutBase(tk.Frame):
         tk.Button(self.frame_rodape, text=texto, width=10, bg="#f6f9fb", command=comando).pack(side=lado, padx=10)
 
 class Main(LayoutBase):
-    def __init__(self, master,controller):
-        super().__init__(master)
-        self.telaAtual = None
-        self.controller = controller
+    def __init__(self, controller):
+        self.root = tk.Tk()
+        self.root.title("Padaria VC++")
+        self.root.geometry("700x600")
+        self.root.configure(bg="white")
+        self.root.resizable(False, False)
 
-    def mostrarTela(self,tela):
+        super().__init__(self.root)
+
+        self.controller = controller
+        self.controller.set_main_view(self)
+
+
+        self.telaAtual = None
+        self.tela1 = Tela1View(self.root, self.controller)
+        self.tela2 = Tela2View(self.root, self.controller)
+        self.tela3 = Tela3View(self.root, self.controller)
+        self.telaJogo = TelaJogo(self.root, self.controller)
+        self.telaJogoExtendida = TelaJogoExtendida(self.root, self.controller)
+        self.tela4 = Tela4View(self.root, self.controller)
+        self.telaADM = TelaADM(self.root, self.controller)
+
+        self.controller.set_telas(
+            tela1=self.tela1,
+            tela2=self.tela2,
+            tela3=self.tela3,
+            telaJogo=self.telaJogo,
+            telaJogoExtendida=self.telaJogoExtendida,
+            tela4=self.tela4,
+            telaADM=self.telaADM
+        )
+
+    def get_root(self):
+        return self.root
+    
+    def mostrarTela(self, tela):
         if self.telaAtual:
             self.telaAtual.pack_forget()
-
         self.telaAtual = tela
         self.telaAtual.pack(fill="both", expand=True)
 
-    def get_telAtual(self):
+    def get_tela_atual(self):
         return self.telaAtual
-        
+
+    def iniciar(self):
+        self.root.mainloop()
 
 class Tela1View(LayoutBase):
     def __init__(self, master, controller):
@@ -553,7 +584,7 @@ class TelaADM(LayoutBase):
                  bg="white", wraplength=200).place(x=-10, y=45)
 
         tk.Button(frameDireito, text="Utilizar Cupom", bg="#f6f9fb", command=self.removerCupom).grid(
-            row=4, column=0, columnspan=2, pady=(180, 0))
+            row=4, column=0, columnspan=2, pady=(160, 0))
 
         self.adicionar_botao_rodape("Voltar", comando=lambda: self.controller.gerenciador_telas(1), lado="left")
 

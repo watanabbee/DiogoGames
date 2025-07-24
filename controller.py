@@ -1,30 +1,36 @@
 import view as v,time as t,sys
 
-
 class Controller:
-
-    def __init__(self, root, model):
-
-        self.root = root
+    def __init__(self, model):
         self.model = model
         self.produtos = self.model.listarProdutos()
         self.inicio = None
         self.rodando = False
         self.misto_comidos = 0
-        self.root.bind('<Escape>', self.exit)
-        
-        self.mainVeiw = v.Main(root,self)
-        self.tela1 = v.Tela1View(root, self)
-        self.tela2 = v.Tela2View(root,self)
-        self.tela3 = v.Tela3View(root, self)
-        self.telaJogo = v.TelaJogo(root, self)
-        self.telaJogoExtendida = v.TelaJogoExtendida(root,self)
-        self.tela4 = v.Tela4View(root,self)
+        self.mainVeiw = None  
 
-        self.telaADM = v.TelaADM(root,self)
+        self.tela1 = None
+        self.tela2 = None
+        self.tela3 = None
+        self.telaJogo = None
+        self.telaJogoExtendida = None
+        self.tela4 = None
+        self.telaADM = None
 
-        self.tela_atual = self.mainVeiw.get_telAtual()
-        self.gerenciador_telas(1)
+
+    def set_main_view(self, main_view):
+        self.mainVeiw = main_view
+
+    def set_telas(self, **telas):
+        self.tela1 = telas.get('tela1')
+        self.tela2 = telas.get('tela2')
+        self.tela3 = telas.get('tela3')
+        self.telaJogo = telas.get('telaJogo')
+        self.telaJogoExtendida = telas.get('telaJogoExtendida')
+        self.tela4 = telas.get('tela4')
+        self.telaADM = telas.get('telaADM')
+
+        self.gerenciador_telas(2)
         
     def gerenciador_telas(self, id):
         if id == 1:
@@ -59,14 +65,14 @@ class Controller:
         return self.produtos
 
     def filtrarProdutos(self,termoBusca):
-        if termoBusca:
-            produtos_filtrados = [p for p in self.produtos if termoBusca in p.nome.lower()]
-            self.tela2.exibir_produtos(produtos_filtrados)
-        else:
+        retorno = self.model.filtrarProdutos(termoBusca)
+        if retorno:
+            self.tela2.exibir_produtos(retorno)
+        else:   
             self.tela2.exibir_produtos(self.produtos)
 
     def mostrar_detalhes(self,produto):
-        self.tela2extendida = v.Tela2extendidaView(self.root, self, produto)
+        self.tela2extendida = v.Tela2extendidaView(self.mainVeiw.root, self, produto)
         self.mostrar_tela(self.tela2extendida)
 
     def mostrar_tela(self, tela):
@@ -87,7 +93,7 @@ class Controller:
                 self.gerenciador_telas(5)
                 return
             self.telaJogo.atualizar_tempo(tempo)
-            self.root.after(100, self.atualizar_cronometro)      
+            self.mainVeiw.root.after(100, self.atualizar_cronometro)
 
     def parar_cronometro(self):
         if self.rodando:
